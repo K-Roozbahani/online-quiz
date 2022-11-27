@@ -7,11 +7,13 @@
 <body>
 <div>
     <div>
+        <ul>
         {% for q in quiz %}
         <li>
-            <link href=" url 'quiz_view' ">
-            {{ q.title }}</link></li>
+            <a href=" url 'quiz_view' ">{{ q.title }}</a>
+        </li>
         {% endfor %}
+        </ul>
     </div>
 </div>
 </body>

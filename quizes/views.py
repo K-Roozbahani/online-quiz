@@ -13,10 +13,10 @@ def quiz_list_view(request):
 def quiz_view(request, pk):
     try:
         quiz = Quiz.objects.get(pk=pk).select_related(Question, Option)
-        answer = request.
+        answer_form = AnswerForm(user=request.user, quiz=quiz)
     except Quiz.DoseNotExist:
         return Http404
-    return render(request, 'quiz.html', {'quiz': quiz})
+    return render(request, 'quiz.html', {'quiz': quiz, 'answer_form': answer_form})
 
 
 def score_view(request):

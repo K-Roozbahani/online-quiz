@@ -5,4 +5,4 @@ from .models import Answer
 class AnswerForm(forms.ModelForm):
     class Meta:
         model = Answer
-
+        fields = ['user', 'quiz', 'option']
