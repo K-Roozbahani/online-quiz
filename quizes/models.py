@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.db.models import Sum, Q
+from django.db.models import Sum, Q, Manager
 
 
 class Quiz(models.Model):
@@ -16,6 +16,9 @@ class Question(models.Model):
     class Meta:
         unique_together = ('number', 'quiz')
 
+    def __str__(self):
+        return '(' + str(self.number) + ') ' + str(self.description)
+
 
 class Option(models.Model):
     name = models.CharField(max_length=2)
@@ -27,11 +30,16 @@ class Option(models.Model):
     class Meta:
         unique_together = ('name', 'question', 'description')
 
+    def __str__(self):
+        return '(' + str(self.name) + ')  ' + str(self.description)
+
 
 class Answer(models.Model):
     user = models.ForeignKey(User, related_name='answers', on_delete=models.CASCADE)
-    quiz = models.ForeignKey(Question, related_name='answer', on_delete=models.CASCADE)
-    option = models.ManyToManyField(Option, related_name='answer', blank=True)
+    quiz = models.ForeignKey(Quiz, related_name='answer', on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, related_name='answers', on_delete=models.CASCADE)
+    option = models.ForeignKey(Option, related_name='answers', on_delete=models.CASCADE)
+    submit_date = models.DateTimeField(auto_now_add=True)
 
     @property
     def score(self):

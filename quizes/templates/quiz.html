@@ -6,9 +6,21 @@
 </head>
 <body>
 <div>
-  <div>
+    <div>
+        <div>
+            <form action="{% url 'show_score' %}" method="POST">
+                {% for question in quiz.question.all %}
+                <h3 style="color:red;">{{ question.description }}</h3>
+                    {% for option in question.option.all %}
+                <input type="radio" id="{{ question.option.name }}" name="option.id" value="{{ option.name }}">
+                <label for="{{ question.option.name }}">{{ option }}</label><br>
 
-  </div>
+                    {% endfor %}
+                {% endfor %}
+                <button type="submit">send</button>
+            </form>
+        </div>
+    </div>
 </div>
 </body>
 </html>

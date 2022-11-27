@@ -10,7 +10,7 @@
         <ul>
         {% for q in quiz %}
         <li>
-            <a href=" url 'quiz_view' ">{{ q.title }}</a>
+            <a href="{% url 'quiz_view' q.id %}">{{ q.title }}</a>
         </li>
         {% endfor %}
         </ul>
