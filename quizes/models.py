@@ -37,12 +37,10 @@ class Option(models.Model):
 class Answer(models.Model):
     user = models.ForeignKey(User, related_name='answers', on_delete=models.CASCADE)
     quiz = models.ForeignKey(Quiz, related_name='answer', on_delete=models.CASCADE)
-    question = models.ForeignKey(Question, related_name='answers', on_delete=models.CASCADE)
-    option = models.ForeignKey(Option, related_name='answers', on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, related_name='answer', on_delete=models.CASCADE)
+    option = models.ForeignKey(Option, related_name='answer', on_delete=models.CASCADE)
     submit_date = models.DateTimeField(auto_now_add=True)
+    is_true = models.BooleanField(null=True, blank=True)
 
-    @property
-    def score(self):
-        true_option = Q(is_true=True, answer=self)
-        question = Question.objects.filter(option=true_option).annotate(sum_score=Sum('score'))
-        return question[0].sum_score
+    class Meta:
+        unique_together = ('user', 'quiz', 'question', 'option')
